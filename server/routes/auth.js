@@ -3,11 +3,15 @@ import { db } from "../db.js";
 const router = express.Router();
 
 router.post("/login", (req, res) => {
+  console.log("LOGIN BODY:", req.body);
   const { email, password } = req.body;
 
   const sql = "SELECT * FROM users WHERE email = ? AND password = ?";
   db.query(sql, [email, password], (err, results) => {
     if (err) return res.status(500).json({ message: "Erreur serveur" });
+
+    console.log("RESULTS:", results); 
+    
     if (results.length === 0)
       return res.status(401).json({ message: "Identifiants invalides" });
     
